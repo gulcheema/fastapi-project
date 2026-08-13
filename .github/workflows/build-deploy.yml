@@ -1,9 +1,13 @@
-name: Build and Test
+name: Build and Test Code
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
+
     environment:
       name: testing
 
@@ -31,8 +35,6 @@ jobs:
           --health-timeout 5s
           --health-retries 5
 
-    runs-on: ubuntu-latest
-
     steps:
       - name: Pulling git repo
         uses: actions/checkout@v4
@@ -51,31 +53,4 @@ jobs:
       - name: Test with pytest
         run: |
           pip install pytest
-<<<<<<< HEAD
           pytest
-
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [build]
-
-    environment:
-      name: production
-
-    steps:
-      - name: Pulling git repo
-        uses: actions/checkout@v4
-
-      - name: Deploy to Ubuntu server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.PROD_USERNAME }}
-          password: ${{ secrets.PROD_PASSWORD }}
-          script: |
-            cd app/src
-            git pull
-            echo ${{ secrets.PROD_PASSWORD }} | sudo -S systemctl restart api
-=======
-          pytest
->>>>>>> ae7c469 (fix tests and update workflow)

@@ -4,15 +4,19 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.one import app
-
 from app.config import settings
-from app.database import get_db
-from app.database import Base
+from app.database import get_db, Base
 from app.oauth2 import create_access_token
 from app import models
 
 
-SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}_test'
+SQLALCHEMY_DATABASE_URL = (
+    f"postgresql://{settings.database_username}:"
+    f"{settings.database_password}@"
+    f"{settings.database_hostname}:"
+    f"{settings.database_port}/"
+    f"{settings.database_name}_test"
+)
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
@@ -65,7 +69,7 @@ def test_user2(client):
     assert res.status_code == 201
 
     new_user = res.json()
-    new_user['password'] = user_data['password']
+    new_user["password"] = user_data["password"]
 
     return new_user
 
@@ -83,7 +87,7 @@ def test_user(client):
     assert res.status_code == 201
 
     new_user = res.json()
-    new_user['password'] = user_data['password']
+    new_user["password"] = user_data["password"]
 
     return new_user
 
@@ -91,7 +95,9 @@ def test_user(client):
 @pytest.fixture
 def token(test_user):
 
-    return create_access_token({"user_id": test_user['id']})
+    return create_access_token({
+        "user_id": test_user["id"]
+    })
 
 
 @pytest.fixture
@@ -112,22 +118,22 @@ def test_posts(test_user, session, test_user2):
         {
             "title": "first title",
             "content": "first content",
-            "owner_id": test_user['id']
+            "owner_id": test_user["id"]
         },
         {
             "title": "2nd title",
             "content": "2nd content",
-            "owner_id": test_user['id']
+            "owner_id": test_user["id"]
         },
         {
             "title": "3rd title",
             "content": "3rd content",
-            "owner_id": test_user['id']
+            "owner_id": test_user["id"]
         },
         {
             "title": "3rd title",
             "content": "3rd content",
-            "owner_id": test_user2['id']
+            "owner_id": test_user2["id"]
         }
     ]
 

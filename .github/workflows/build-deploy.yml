@@ -1,4 +1,4 @@
-name: Build and Deploy Code
+name: Build and Test
 
 on: [push, pull_request]
 
@@ -51,6 +51,7 @@ jobs:
       - name: Test with pytest
         run: |
           pip install pytest
+<<<<<<< HEAD
           pytest
 
 
@@ -75,3 +76,6 @@ jobs:
             cd app/src
             git pull
             echo ${{ secrets.PROD_PASSWORD }} | sudo -S systemctl restart api
+=======
+          pytest
+>>>>>>> ae7c469 (fix tests and update workflow)

@@ -1,14 +1,13 @@
 version: "3"
 
 services:
+
   api:
     build: .
     ports:
       - 8000:8000
     volumes:
       - ./:/usr/src/app
-    # env_file:
-    #     - ./.env
     environment:
       - DATABASE_HOSTNAME=postgres
       - DATABASE_PORT=5432
@@ -23,7 +22,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres
+    image: postgres:17
     environment:
       - POSTGRES_PASSWORD=password123
       - POSTGRES_DB=fastapi

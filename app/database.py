@@ -13,7 +13,17 @@ SQLALCHEMY_DATABASE_URL = (
 )
 
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# Enable SSL only when connecting to Neon
+connect_args = {}
+
+if "neon.tech" in settings.database_hostname:
+    connect_args = {"sslmode": "require"}
+
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    connect_args=connect_args
+)
 
 
 sessionLocal = sessionmaker(
